@@ -1,0 +1,9 @@
+# these are for unit testing
+
+class_aliases:
+    TestEntity1:  Lthrt\EntityBundle\Tests\Entity\TestEntity1
+    TestEntity2:  Lthrt\EntityBundle\Tests\Entity\TestEntity2
+    TestEntity3:  Lthrt\EntityBundle\Tests\Entity\TestEntity3
+    GenericEntity:  Lthrt\EntityBundle\Tests\Entity\GenericEntity
+    GenericJsonEntity:  Lthrt\EntityBundle\Tests\Entity\GenericJsonEntity
+    GenericLoggedEntity:  Lthrt\EntityBundle\Tests\Entity\GenericLoggedEntity

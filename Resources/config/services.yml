@@ -1,0 +1,66 @@
+services:
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+
+
+    Lthrt\EntityBundle\Model\ClassVerifier:
+        arguments: [ "@doctrine.orm.entity_manager", '%class_aliases%', "@logger" ]
+
+    lthrt.entity.class_verifier: '@Lthrt\EntityBundle\Model\ClassVerifier'
+
+
+    Lthrt\EntityBundle\Model\EntityFetcher:
+        arguments: [  "@doctrine.orm.entity_manager", "@lthrt.entity.class_verifier" ]
+
+    lthrt.entity.fetcher: '@Lthrt\EntityBundle\Model\EntityFetcher'
+
+
+    Lthrt\EntityBundle\Model\EntitySerializer:
+        arguments: [ "@doctrine.orm.entity_manager", "@annotation_reader" ]
+
+    lthrt.entity.serializer: '@Lthrt\EntityBundle\Model\EntitySerializer'
+
+
+    Lthrt\EntityBundle\Model\EntityLogger:
+        arguments: [ "@doctrine.orm.entity_manager", "@lthrt.entity.serializer", "@security.token_storage" ]
+
+    lthrt.entity.logger: '@Lthrt\EntityBundle\Model\EntityLogger'
+
+
+    Lthrt\EntityBundle\Model\EntityLogFetcher:
+        arguments: [ "@doctrine.orm.entity_manager", "@lthrt.entity.serializer", "@security.token_storage" ]
+
+    lthrt.entity.logfetcher: '@Lthrt\EntityBundle\Model\EntityLogFetcher'
+
+
+    Lthrt\EntityBundle\Model\PartialLogger:
+        arguments: [ "@doctrine.orm.entity_manager", "@annotation_reader", "@security.token_storage"]
+
+    lthrt.entity.partial.logger: '@Lthrt\EntityBundle\Model\PartialLogger'
+
+
+    Lthrt\EntityBundle\Listener\PostPersistEntityLogging:
+        arguments: [ "@security.token_storage", "@annotation_reader" ]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    lthrt.entity.listeners.entityPostPersist.logger: '@Lthrt\EntityBundle\Listener\PostPersistEntityLogging'
+
+
+    Lthrt\EntityBundle\Listener\PostUpdateEntityLogging:
+        arguments: [ "@security.token_storage",  "@annotation_reader" ]
+        tags:
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    lthrt.entity.listeners.entityPostUpdate.logger: '@Lthrt\EntityBundle\Listener\PostUpdateEntityLogging'
+
+
+    Lthrt\EntityBundle\Twig\JsonExtension:
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    lthrt.entity.twig_extension: '@Lthrt\EntityBundle\Twig\JsonExtension'
